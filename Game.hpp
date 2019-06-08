@@ -108,6 +108,9 @@ int Game::winner(){
 // calcular pontos para cada possivel posicao escolhida pelo pc e realiza a jogada nessa posicao
 // pc sempre eh o jogador 2
 void Game::IA(){
+    if(winner() != 0) // verifica se o player venceu nessa rodada, se venceu, nao joga
+        return;
+
     int position_points[3][3];
     for(int i=0;i<3;i++){
         for(int j=0;j<3;j++){
@@ -269,6 +272,12 @@ void Game::IA(){
         }
     }
 
+    // excessao de caso especifico
+    if(check_pos(2 + 'A', 2 + '0' + 1)){
+        if(matrix[1][2] == 1 && matrix[2][1] == 1)
+            position_points[2][2] += 5;
+    }
+
     // Verifica qual posicao tem mais pontos, e joga nela
     int x_best, y_best;
     int best = 0;
@@ -285,7 +294,7 @@ void Game::IA(){
 
     /*
      * Printa matriz de pontos de posicao
-     * Apenas para debug
+     * Apenas para debug 
     for(int i=0;i<3;i++){
         for(int j=0;j<3;j++){
             printf("%d ",position_points[i][j]);
