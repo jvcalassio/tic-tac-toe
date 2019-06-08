@@ -2,6 +2,8 @@ class Game {
     private:
         int matrix[3][3];
         int curr_player;
+        bool check_pos_int(int x, int y);
+        void place_int(int x, int y);
 
     public:
         Game();
@@ -54,27 +56,38 @@ void Game::print(){
 }
 
 // verifica se a posicao desejada pode receber uma jogada
-bool Game::check_pos(char a, char b){
-    if(a >= 'a' && a <= 'z'){
-        a -= 32;
-    }
-    int x = a - 'A'; // y correspondente
-    int y = b - '0' - 1; // x correspondente
+bool Game::check_pos_int(int x, int y){
     if(matrix[x][y] != 0 || x > 2 || x < 0 || y > 2 || y < 0){
         return false;
     } else {
         return true;
     }
 }
+
+// verifica se a posicao desejada pode receber uma jogada auxiliar, com char
+bool Game::check_pos(char a, char b){
+    if(a >= 'a' && a <= 'z'){
+        a -= 32;
+    }
+    int x = a - 'A'; // y correspondente
+    int y = b - '0' - 1; // x correspondente
+    return check_pos_int(x,y);
+}
+
 // faz uma jogada na coord A x B
+void Game::place_int(int x, int y){
+    matrix[x][y] = curr_player;
+    curr_player == 1 ? curr_player = 2 : curr_player = 1;
+}
+
+// faz uma jogada na coord A x B auxiliar, com char
 void Game::place(char a, char b){
     if(a >= 'a' && a <= 'z'){
         a -= 32;
     }
     int x = a - 'A'; // y correspondente
     int y = b - '0' - 1; // x correspondente
-    matrix[x][y] = curr_player;
-    curr_player == 1 ? curr_player = 2 : curr_player = 1;
+    place_int(x,y);
 }
 
 // verifica se alguem ganhou o jogo
@@ -121,7 +134,7 @@ void Game::IA(){
     // Verificacao das posicoes horizontais
     for(int i=0;i<3;i++){
         for(int j=0;j<3;j++){
-            if(check_pos(i+'A', j+'0'+1)){
+            if(check_pos_int(i,j)){
                 if(j == 0 && matrix[i][j+1] == matrix[i][j+2] && matrix[i][j+1] != 0){
                     position_points[i][j] += 5;
                     if(matrix[i][j+1] == 2){
@@ -169,7 +182,7 @@ void Game::IA(){
     // Verificacao das posicoes verticais
     for(int i=0;i<3;i++){
         for(int j=0;j<3;j++){
-            if(check_pos(i+'A', j+'0'+1)){
+            if(check_pos_int(i,j)){
                 if(i == 0 && matrix[i+1][j] == matrix[i+2][j] && matrix[i+1][j] != 0){
                     position_points[i][j] += 5;
                     if(matrix[i+1][j] == 2){
@@ -208,7 +221,7 @@ void Game::IA(){
     }
 
     // Verificacao das posicoes das diagonais
-    if(check_pos(0 + 'A', 0 + '0' + 1)){
+    if(check_pos_int(0, 0)){
         if(matrix[1][1] == matrix[2][2] && matrix[1][1] != 0){
             position_points[0][0] += 5;
             if(matrix[1][1] == 2){
@@ -219,7 +232,7 @@ void Game::IA(){
         }
     }
 
-    if(check_pos(2 + 'A', 2 + '0' + 1)){
+    if(check_pos_int(2, 2)){
         if(matrix[1][1] == matrix[0][0] && matrix[1][1] != 0){
             position_points[2][2] += 5;
             if(matrix[1][1] == 2){
@@ -230,7 +243,7 @@ void Game::IA(){
         }
     }
 
-    if(check_pos(1 + 'A', 1 + '0' + 1)){
+    if(check_pos_int(1, 1)){
         // diagonal principal
         if(matrix[0][0] == matrix[2][2] && matrix[0][0] != 0){
             position_points[1][1] += 5;
@@ -250,7 +263,7 @@ void Game::IA(){
             }
         }
     }
-    if(check_pos(0 + 'A', 2 + '0' + 1)){
+    if(check_pos_int(0, 2)){
         if(matrix[1][1] == matrix[2][0] && matrix[1][1] != 0){
             position_points[0][2] += 5;
             if(matrix[1][1] == 2){
@@ -261,7 +274,7 @@ void Game::IA(){
         }
     }
 
-    if(check_pos(2 + 'A', 0 + '0' + 1)){
+    if(check_pos_int(2, 0)){
         if(matrix[1][1] == matrix[0][2] && matrix[1][1] != 0){
             position_points[2][0] += 5;
             if(matrix[1][1] == 2){
@@ -272,8 +285,20 @@ void Game::IA(){
         }
     }
 
-    // excessao de caso especifico
-    if(check_pos(2 + 'A', 2 + '0' + 1)){
+    // excessoes de casos especificos
+    if(check_pos_int(0, 0)){
+        if(matrix[1][0] == 1 && matrix[0][1] == 1)
+            position_points[0][0] += 5;
+    }
+    if(check_pos_int(0, 2)){
+        if(matrix[0][1] == 1 && matrix[1][2] == 1)
+            position_points[0][2] += 5;
+    }
+    if(check_pos_int(2, 0)){
+        if(matrix[1][0] == 1 && matrix[2][1] == 1)
+            position_points[2][0] += 5;
+    }
+    if(check_pos_int(2, 2)){
         if(matrix[1][2] == 1 && matrix[2][1] == 1)
             position_points[2][2] += 5;
     }
@@ -290,7 +315,7 @@ void Game::IA(){
             }
         }
     }
-    place(y_best + 'A', x_best + '0' + 1);
+    place_int(y_best, x_best);
 
     /*
      * Printa matriz de pontos de posicao

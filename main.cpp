@@ -23,10 +23,10 @@ int main() {
         maingame.print();
         int winner = maingame.winner();
         if(winner == 0){
-            string coord = "Z4";
+            char coord[] = "Z4";
             while(maingame.check_pos(coord[0],coord[1]) == false){
                 printf("\nInsira as coordenadas desejadas: ");
-                cin >> coord;
+                scanf("%s",coord);
             }
             maingame.place(coord[0],coord[1]);
             maingame.IA(); // comentar essa linha pra jogar player vs player
