@@ -34,7 +34,7 @@ int main() {
             if(winner == 3)
                 printf("\nDeu velha!\n");
             else 
-                printf("\nwinner: Player %d\n",winner);
+                printf("\nVencedor: Player %d\n",winner);
             x = 0;
         }
     }

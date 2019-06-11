@@ -57,7 +57,7 @@ void Game::print(){
 
 // verifica se a posicao desejada pode receber uma jogada
 bool Game::check_pos_int(int x, int y){
-    if(matrix[x][y] != 0 || x > 2 || x < 0 || y > 2 || y < 0){
+    if(x > 2 || x < 0 || y > 2 || y < 0 || matrix[x][y] != 0){
         return false;
     } else {
         return true;
@@ -76,6 +76,9 @@ bool Game::check_pos(char a, char b){
 
 // faz uma jogada na coord A x B
 void Game::place_int(int x, int y){
+    if(!check_pos(x,y)) // so insere se posicao valida
+        return;
+
     matrix[x][y] = curr_player;
     curr_player == 1 ? curr_player = 2 : curr_player = 1;
 }
@@ -312,6 +315,19 @@ void Game::IA(){
                 best = position_points[i][j];
                 x_best = j;
                 y_best = i;
+            }
+        }
+    }
+    // se nenhuma posicao tiver pontos > 0, escolhe a primeira com 0 pontos
+    if(best == 0){
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                if(position_points[i][j] == 0){
+                    best = position_points[i][j];
+                    x_best = j;
+                    y_best = i;
+                    break;
+                }
             }
         }
     }
