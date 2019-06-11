@@ -141,7 +141,7 @@ void Game::IA(){
                 if(j == 0 && matrix[i][j+1] == matrix[i][j+2] && matrix[i][j+1] != 0){
                     position_points[i][j] += 5;
                     if(matrix[i][j+1] == 2){
-                        position_points[i][j] += 3;
+                        position_points[i][j] += 5;
                     } else {
                         position_points[i][j] += 2;
                     }
@@ -149,7 +149,7 @@ void Game::IA(){
                 if(j == 1 && matrix[i][j+1] == matrix[i][j-1] && matrix[i][j+1] != 0){
                     position_points[i][j] += 5;
                     if(matrix[i][j+1] == 2){
-                        position_points[i][j] += 3;
+                        position_points[i][j] += 5;
                     } else {
                         position_points[i][j] += 2;
                     }
@@ -157,7 +157,7 @@ void Game::IA(){
                 if(j == 2 && matrix[i][j-1] == matrix[i][j-2] && matrix[i][j-1] != 0){
                     position_points[i][j] += 5;
                     if(matrix[i][j-1] == 2){
-                        position_points[i][j] += 3;
+                        position_points[i][j] += 5;
                     } else {
                         position_points[i][j] += 2;
                     }
@@ -189,7 +189,7 @@ void Game::IA(){
                 if(i == 0 && matrix[i+1][j] == matrix[i+2][j] && matrix[i+1][j] != 0){
                     position_points[i][j] += 5;
                     if(matrix[i+1][j] == 2){
-                        position_points[i][j] += 3;
+                        position_points[i][j] += 5;
                     } else {
                         position_points[i][j] += 2;
                     }
@@ -197,7 +197,7 @@ void Game::IA(){
                 if(i == 1 && matrix[i+1][j] == matrix[i-1][j] && matrix[i+1][j] != 0){
                     position_points[i][j] += 5;
                     if(matrix[i+1][j] == 2){
-                        position_points[i][j] += 3;
+                        position_points[i][j] += 5;
                     } else {
                         position_points[i][j] += 2;
                     }
@@ -205,7 +205,7 @@ void Game::IA(){
                 if(i == 2 && matrix[i-1][j] == matrix[i-2][j] && matrix[i-1][j] != 0){
                     position_points[i][j] += 5;
                     if(matrix[i-1][j] == 2){
-                        position_points[i][j] += 3;
+                        position_points[i][j] += 5;
                     } else {
                         position_points[i][j] += 2;
                     }
@@ -334,7 +334,7 @@ void Game::IA(){
 
     /*
      * Printa matriz de pontos de posicao
-     * Apenas para debug 
+     * Apenas para debug
     for(int i=0;i<3;i++){
         for(int j=0;j<3;j++){
             printf("%d ",position_points[i][j]);
